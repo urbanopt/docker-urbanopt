@@ -1,4 +1,4 @@
-# urbanopt-cloud
+# docker-urbanopt
 
 Docker container for URBANopt CLI on Ubuntu 22.04.
 
@@ -18,26 +18,26 @@ This repository contains a Dockerfile that builds a Docker container with URBANo
 ### Pull from Docker Hub
 
 ```bash
-docker pull brianlball/urbanopt-cloud:latest
+docker pull nrel/docker-urbanopt:latest
 ```
 
 ### Run the Container
 
 ```bash
 # Run with default command (shows version)
-docker run --rm brianlball/urbanopt-cloud:latest
+docker run --rm nrel/docker-urbanopt:latest
 
 # Run interactively
-docker run -it --rm brianlball/urbanopt-cloud:latest bash
+docker run -it --rm nrel/docker-urbanopt:latest bash
 
 # Run with a mounted workspace
-docker run -it --rm -v $(pwd):/work brianlball/urbanopt-cloud:latest
+docker run -it --rm -v $(pwd):/work nrel/docker-urbanopt:latest
 ```
 
 ### Build Locally
 
 ```bash
-docker build -t urbanopt-cloud:latest .
+docker build -t docker-urbanopt:latest .
 ```
 
 # Running on the Cloud
@@ -115,13 +115,13 @@ Other transfer methods (for example, SCP, rsync, or cloud storage downloads) may
 URBANopt is provided as a prebuilt Docker image on Docker Hub:
 
 ```
-brianlball/urbanopt-cloud:1.1.0
+nrel/docker-urbanopt:1.1.0
 ```
 
 Pull the image locally:
 
 ```
-docker pull brianlball/urbanopt-cloud:1.1.0
+docker pull nrel/docker-urbanopt:1.1.0
 ```
 
 ---
@@ -133,7 +133,7 @@ Run URBANopt by mounting the project directory into the container:
 ```
 docker run --rm -it \
   -v "$(pwd):/work" \
-  brianlball/urbanopt-cloud:1.1.0 \
+  nrel/docker-urbanopt:1.1.0 \
   uo run -f example_uo/example_project.json \
          -s example_uo/baseline_scenario.csv
 ```
@@ -185,7 +185,7 @@ The same container can be used on Windows with Docker Desktop:
 ```
 docker run --rm -it ^
   -v "C://path//to//urbanopt-project://work" ^
-  brianlball/urbanopt-cloud:1.1.0 ^
+  nrel/docker-urbanopt:1.1.0 ^
   uo run -f example_uo/example_project.json ^
          -s example_uo/baseline_scenario.csv
 ```
