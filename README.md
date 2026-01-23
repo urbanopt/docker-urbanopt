@@ -1,4 +1,4 @@
-# urbanopt-cloud
+# docker-urbanopt
 
 Docker container for URBANopt CLI 1.1.0 on Ubuntu 22.04.
 
@@ -18,26 +18,26 @@ This repository contains a Dockerfile that builds a Docker container with URBANo
 ### Pull from Docker Hub
 
 ```bash
-docker pull nrel/urbanopt-cloud:latest
+docker pull nrel/docker-urbanopt:latest
 ```
 
 ### Run the Container
 
 ```bash
 # Run with default command (shows version)
-docker run --rm nrel/urbanopt-cloud:latest
+docker run --rm nrel/docker-urbanopt:latest
 
 # Run interactively
-docker run -it --rm nrel/urbanopt-cloud:latest bash
+docker run -it --rm nrel/docker-urbanopt:latest bash
 
 # Run with a mounted workspace
-docker run -it --rm -v $(pwd):/work nrel/urbanopt-cloud:latest
+docker run -it --rm -v $(pwd):/work nrel/docker-urbanopt:latest
 ```
 
 ### Build Locally
 
 ```bash
-docker build -t urbanopt-cloud:latest .
+docker build -t docker-urbanopt:latest .
 ```
 
 ## GitHub Actions Workflow
@@ -77,10 +77,10 @@ The Dockerfile supports both x86_64 (default) and arm64 architectures. To build 
 
 ```bash
 # Build for x86_64 (default)
-docker build -t urbanopt-cloud:x86_64 .
+docker build -t docker-urbanopt:x86_64 .
 
 # Build for arm64
-docker build --build-arg UO_ARCH=arm64 -t urbanopt-cloud:arm64 .
+docker build --build-arg UO_ARCH=arm64 -t docker-urbanopt:arm64 .
 ```
 
 ## License

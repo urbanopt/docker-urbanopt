@@ -13,7 +13,7 @@ on:
 
 env:
   REGISTRY: docker.io
-  IMAGE_NAME: nrel/urbanopt-cloud
+  IMAGE_NAME: nrel/docker-urbanopt
 
 jobs:
   build-and-push:
@@ -60,14 +60,14 @@ jobs:
         with:
           context: .
           load: true
-          tags: urbanopt-cloud:${{ env.VERSION }}
+          tags: docker-urbanopt:${{ env.VERSION }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
       - name: Test Docker container
         run: |
           echo "Testing Docker container..."
-          docker run --rm urbanopt-cloud:${{ env.VERSION }} uo --version
+          docker run --rm docker-urbanopt:${{ env.VERSION }} uo --version
           echo "Container test passed!"
 
       - name: Build and push Docker image
