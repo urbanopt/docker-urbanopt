@@ -18,20 +18,20 @@ This repository contains a Dockerfile that builds a Docker container with URBANo
 ### Pull from Docker Hub
 
 ```bash
-docker pull brianlball/urbanopt-cloud:latest
+docker pull nrel/urbanopt-cloud:latest
 ```
 
 ### Run the Container
 
 ```bash
 # Run with default command (shows version)
-docker run --rm brianlball/urbanopt-cloud:latest
+docker run --rm nrel/urbanopt-cloud:latest
 
 # Run interactively
-docker run -it --rm brianlball/urbanopt-cloud:latest bash
+docker run -it --rm nrel/urbanopt-cloud:latest bash
 
 # Run with a mounted workspace
-docker run -it --rm -v $(pwd):/work brianlball/urbanopt-cloud:latest
+docker run -it --rm -v $(pwd):/work nrel/urbanopt-cloud:latest
 ```
 
 ### Build Locally
