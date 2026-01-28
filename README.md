@@ -44,7 +44,7 @@ docker build -t docker-urbanopt:latest .
 
 ### Option 1: Docker-Based URBANopt Execution
 
-For a single-server cloud deployment (for example, an AWS EC2 instance), the simplest and most reproducible approach is to run **URBANopt inside a Docker container**. This avoids installing URBANopt directly on the virtual machine and makes upgrades, rollbacks, and environment consistency as simple as changing the container tag.
+For a single-server cloud deployment (for example, an AWS EC2 instance), the simplest and most reproducible approach is to run **URBANopt inside a Docker container**. This avoids installing URBANopt directly on the cloud instance and makes upgrades, rollbacks, and environment consistency as simple as changing the container tag.
 
 In this workflow, URBANopt runs entirely inside a container, while project files and simulation outputs live on the host filesystem.
 
@@ -54,7 +54,7 @@ In this workflow, URBANopt runs entirely inside a container, while project files
 
 ## Step 1: Launch a Cloud Instance
 
-Launch a Linux-based virtual machine on your preferred cloud platform:
+Launch a Linux-based instance on your preferred cloud platform:
 
 - AWS EC2  
 - Azure Virtual Machines  
@@ -70,19 +70,19 @@ Launch a Linux-based virtual machine on your preferred cloud platform:
 
 ## Step 2: Connect via SSH
 
-Once the instance is running, connect using SSH:
+Once the instance is running, get its IP address and connect a terminal to it using SSH:
 
 ```
 ssh user@your-instance-ip
 ```
 
-All remaining steps are performed inside this SSH session.
+**All remaining steps are performed inside this SSH session.**
 
 ---
 
 ## Step 3: Install Docker
 
-Most cloud VMs do **not** include Docker by default.
+Most cloud instances do **not** include Docker by default, so make sure that it is installed so you can run the URBANopt docker container.
 
 On Ubuntu 22.04:
 
@@ -99,7 +99,7 @@ Managed container services (AWS ECS, AWS Batch, Kubernetes) already include Dock
 
 ## Step 4: Obtain Your URBANopt Project Files
 
-This guide assumes your URBANopt project is stored in a Git repository and cloned onto the instance:
+This guide assumes your URBANopt project is stored in a Git repository and can be cloned onto the instance:
 
 ```
 git clone https://github.com/your-org/your-urbanopt-project.git
@@ -112,13 +112,14 @@ Other transfer methods (for example, SCP, rsync, or cloud storage downloads) may
 
 ## Step 5: Pull the URBANopt Docker Image
 
-URBANopt is provided as a prebuilt Docker image on Docker Hub:
+URBANopt is provided as a prebuilt Docker image on [Docker Hub](https://hub.docker.com/r/nrel/docker-urbanopt).
+For example, version 1.1.0 is named:
 
 ```
 nrel/docker-urbanopt:1.1.0
 ```
 
-Pull the image locally:
+To pull the URBANopt 1.1.0 image locally to the instance, execute the following command:
 
 ```
 docker pull nrel/docker-urbanopt:1.1.0
@@ -128,7 +129,8 @@ docker pull nrel/docker-urbanopt:1.1.0
 
 ## Step 6: Run URBANopt Using Docker
 
-Run URBANopt by mounting the project directory into the container:
+Run the URBANopt container and mount the project directory into the container, so that URBANopt CLI has access to the project files.
+In this example, we assume that the :
 
 ```
 docker run --rm -it \
@@ -139,6 +141,16 @@ docker run --rm -it \
 ```
 
 ### Notes
+
+- `docker run` starts a new container from a Docker image.
+- `--rm` automatically removes the container after it exits (optional).
+- `-it` runs the container in interactive mode with a TTY attached.
+- `-v "$(pwd):/work"` mounts the current host directory into the container at `/work`.
+- `nrel/docker-urbanopt:1.1.0` is the Docker image containing UrbanOpt version 1.1.0 and its dependencies.
+- `uo run` invokes the UrbanOpt CLI inside the container.
+- `-f example_uo/example_project.json` specifies the UrbanOpt project definition file.
+- `-s example_uo/baseline_scenario.csv` specifies the scenario CSV used for the run.
+
 
 - `example_project.json` and `baseline_scenario.csv` are **example files provided by URBANopt**
 - User projects will typically use different filenames
@@ -168,7 +180,7 @@ No results are stored only inside the container.
 
 ## Parallel Execution
 
-The number of parallel URBANopt simulations is controlled in `runner.conf`:
+The number of parallel URBANopt simulations is controlled in project config file `runner.conf`:
 
 ```
 num_parallel = 10
